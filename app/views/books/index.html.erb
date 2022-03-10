@@ -19,7 +19,7 @@
           <td><%= link_to 'Show', book, method: :get %></td>
           <td><%= link_to 'Edit', edit_book_path(book) %></td>
           <!--viewは不要、アクションにする-->
-          <td><%= link_to 'Destroy', book, method: :delete %></td>
+          <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>
         </tr>
         <% end %>
     </tbody>

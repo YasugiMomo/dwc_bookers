@@ -13,8 +13,7 @@ class BooksController < ApplicationController
     # データをデータベースに保存するためのsaveメソッド実行
     if @book.save
     # showの画面へリダイレクト フラッシュメッセージ
-      flash[:notice] = 'Book was successfully created.'
-      redirect_to book_path(@book.id)
+      redirect_to book_path(@book.id), notice: 'Book was successfully created.'
     else
       @books = Book.all
       render :index

@@ -1,7 +1,17 @@
 <body>
   <h1>Editing Book</h1>
+
+  <% if @book.errors.any? %>
+    <%= @book.errors.count %> errors prohibited this book from being saved:
+    <ul>
+      <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  <% end %>
+
   <!--form_withヘルパー-->
-  <%= form_with model: @book, url: update_list_path(@book.id), method: :patch do |f| %>
+  <%= form_with model: @book, url: book_path(@book.id) ,method: :patch do |f| %>
     <p>Title</p>
     <%= f.text_field :title %>
 
@@ -11,7 +21,7 @@
     <%= f.submit 'Update Book' %>
   <% end %>
   <!--リンク-->
-   <%= link_to 'show' %>
+  <%= link_to 'show', book_path, method: :get %>
   <%= link_to 'Back', '/books' %>
 
 </body>

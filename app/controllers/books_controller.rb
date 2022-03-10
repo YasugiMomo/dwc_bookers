@@ -22,7 +22,24 @@ class BooksController < ApplicationController
   end
 
   def edit
+    @book = Book.find(params[:id])
   end
+  
+  def update
+    book = Book.find(params[:id])
+    book.update(list_params)
+    redirect_to book_path(book.id)  
+  end
+
+  def destroy
+     # データ（レコード）を1件取得
+    book = Book.find(params[:id])
+    # データ（レコード）を削除
+    book.destroy
+    # 投稿一覧画面へリダイレクト
+    redirect_to '/books'
+  end
+
   # ストロングパラメータ
   def book_params
     params.require(:book).permit(:title, :body)

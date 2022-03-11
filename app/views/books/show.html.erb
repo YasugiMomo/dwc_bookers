@@ -1,10 +1,11 @@
-<div class="flash-notifications">
-  <% flash.each do |key, value| %>
-   <%= content_tag(:div, value, class: key) %>
-  <% end %>
-</div>
-
 <body>
+
+  <div class="flash-notifications">
+    <% flash.each do |key, value| %>
+     <%= content_tag(:div, value, class: key) %>
+    <% end %>
+  </div>
+
   <P>
     <strong>Title:</strong>
     <%= @book.title %>
@@ -15,5 +16,6 @@
   </p>
   <!--リンク-->
   <%= link_to 'Edit', edit_book_path %>
+  |
   <%= link_to 'Back', :back %>
 </body>

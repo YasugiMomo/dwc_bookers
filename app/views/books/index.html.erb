@@ -1,10 +1,12 @@
-<div class="flash-notifications">
-  <% flash.each do |key, value| %>
-   <%= content_tag(:div, value, class: key) %>
-  <% end %>
-</div>
 
 <body>
+
+  <div class="flash-notifications">
+    <% flash.each do |key, value| %>
+     <%= content_tag(:div, value, class: key) %>
+    <% end %>
+  </div>
+
   <h1 class="header">Books</h1>
   <!--投稿一覧-->
   <table>
@@ -42,7 +44,7 @@
     </ul>
   <% end %>
 
-  <div class="new-book">
+  <div class="form">
   <!--form_withヘルパー-->
   <%= form_with model: @book do |f| %>
     <div class="field">

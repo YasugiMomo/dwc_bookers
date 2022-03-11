@@ -44,7 +44,8 @@ div{
   display: block;
 }
 
-div .new-book{
+.form{
+  display: block;
   margin-top: 0;
 }
 
@@ -54,4 +55,15 @@ div .field, div .action{
 
 label{
   display: block;
+}
+
+.flash-notifications{
+  color: green;
+}
+
+p,td{
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 33px;
 }

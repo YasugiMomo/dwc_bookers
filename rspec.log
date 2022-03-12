@@ -1,0 +1,1423 @@
+
+Book モデルに関するテスト
+  実際に保存してみる
+[32m    有効な投稿内容の場合は保存されるか[0m
+  空白のバリデーションチェック
+[32m    titleが空白の場合にバリデーションチェックされ空白のエラーメッセージが返ってきているか[0m
+[32m    bodyが空白の場合にバリデーションチェックされ空白のエラーメッセージが返ってきているか[0m
+  titleを空白で投稿した場合に画面にエラーメッセージが表示されているか
+[31m    エラーメッセージは正しく表示されるか (FAILED - 1)[0m
+  bodyを空白で投稿した場合に画面にエラーメッセージが表示されているか
+[31m    エラーメッセージは正しく表示されるか (FAILED - 2)[0m
+
+投稿のテスト
+  トップ画面(root_path)のテスト
+    表示の確認
+[32m      トップ画面(root_path)に一覧ページへのリンクが表示されているか[0m
+[32m      root_pathが"/"であるか[0m
+  一覧画面のテスト
+    一覧の表示とリンクの確認
+[31m      bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか (FAILED - 3)[0m
+[31m      bookのタイトルと感想を表示し、詳細・編集・削除のリンクが表示されているか (FAILED - 4)[0m
+[31m      Create Bookボタンが表示される (FAILED - 5)[0m
+    投稿処理に関するテスト
+[31m      投稿に成功しサクセスメッセージが表示されるか (FAILED - 6)[0m
+[31m      投稿に失敗する (FAILED - 7)[0m
+[31m      投稿後のリダイレクト先は正しいか (FAILED - 8)[0m
+    book削除のテスト
+[31m      application.html.erbにjavascript_pack_tagを含んでいるか (FAILED - 9)[0m
+[31m      bookの削除 (FAILED - 10)[0m
+  詳細画面のテスト
+    表示の確認
+[32m      本のタイトルと感想が画面に表示されていること[0m
+[32m      Editリンクが表示される[0m
+[32m      Backリンクが表示される[0m
+    リンクの遷移先の確認
+[32m      Editの遷移先は編集画面か[0m
+[31m      Backの遷移先は一覧画面か (FAILED - 11)[0m
+  編集画面のテスト
+    表示の確認
+[32m      編集前のタイトルと感想がフォームに表示(セット)されている[0m
+[32m      Update Bookボタンが表示される[0m
+[32m      Showリンクが表示される[0m
+[32m      Backリンクが表示される[0m
+    リンクの遷移先の確認
+[32m      Showの遷移先は詳細画面か[0m
+[31m      Backの遷移先は一覧画面か (FAILED - 12)[0m
+    更新処理に関するテスト
+[32m      更新に成功しサクセスメッセージが表示されるか[0m
+[32m      更新に失敗しエラーメッセージが表示されるか[0m
+[32m      更新後のリダイレクト先は正しいか[0m
+
+Failures:
+
+  1) Book モデルに関するテスト titleを空白で投稿した場合に画面にエラーメッセージが表示されているか エラーメッセージは正しく表示されるか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/models/book_spec.rb:25:in `block (3 levels) in <top (required)>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  2) Book モデルに関するテスト bodyを空白で投稿した場合に画面にエラーメッセージが表示されているか エラーメッセージは正しく表示されるか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/models/book_spec.rb:35:in `block (3 levels) in <top (required)>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  3) 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  4) 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 bookのタイトルと感想を表示し、詳細・編集・削除のリンクが表示されているか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  5) 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 Create Bookボタンが表示される
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  6) 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿に成功しサクセスメッセージが表示されるか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  7) 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿に失敗する
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  8) 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿後のリダイレクト先は正しいか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  9) 投稿のテスト 一覧画面のテスト book削除のテスト application.html.erbにjavascript_pack_tagを含んでいるか
+     [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+     [31m[0m
+     [31mActionView::SyntaxErrorInTemplate:[0m
+     [31m  Encountered a syntax error while rendering template: check [0m
+     [31m  <body>[0m
+     [31m[0m
+     [31m    <div class="flash-notifications">[0m
+     [31m      <% flash.each do |key, value| %>[0m
+     [31m       <%= content_tag(:div, value, class: key) %>[0m
+     [31m      <% end %>[0m
+     [31m    </div>[0m
+     [31m[0m
+     [31m    <h1 class="header">Books</h1>[0m
+     [31m    <!--投稿一覧-->[0m
+     [31m    <table>[0m
+     [31m      <thead>[0m
+     [31m        <tr>[0m
+     [31m          <th>Title</th>[0m
+     [31m          <th>Body</th>[0m
+     [31m          <th colspan="3"></th>[0m
+     [31m        </tr>[0m
+     [31m      </thead>[0m
+     [31m[0m
+     [31m      <tbody>[0m
+     [31m        <!--データを取得する構文-->[0m
+     [31m        <% @books.each do |book| %>[0m
+     [31m          <tr>[0m
+     [31m            <td><%= book.title %></td>[0m
+     [31m            <td><%= book.body %></td>[0m
+     [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+     [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+     [31m            <!--viewは不要-->[0m
+     [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+     [31m          </tr>[0m
+     [31m          <% end %>[0m
+     [31m      </tbody>[0m
+     [31m    </table>[0m
+     [31m[0m
+     [31m    <!--新規投稿-->[0m
+     [31m    <h2>New book</h2>[0m
+     [31m    <% if @book.errors.any? %>[0m
+     [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+     [31m      <ul>[0m
+     [31m        <% @book.errors.full_messages.each do |message| %>[0m
+     [31m        <li><%= message %></li>[0m
+     [31m      <% end %>[0m
+     [31m      </ul>[0m
+     [31m    <% end %>[0m
+     [31m[0m
+     [31m    <div class="form">[0m
+     [31m    <!--form_withヘルパー-->[0m
+     [31m    <%= form_with model: @book, local : true do |f| %>[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_title">Title</label>[0m
+     [31m      <%= f.text_field :title %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="field">[0m
+     [31m      <label for="book_body">Body</label>[0m
+     [31m      <%= f.text_area :body %>[0m
+     [31m      </div>[0m
+     [31m[0m
+     [31m      <div class="action">[0m
+     [31m      <%= f.submit 'Create Book' %>[0m
+     [31m      </div>[0m
+     [31m    <% end %>[0m
+     [31m    </div>[0m
+     [31m  </body>[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m# ...                              ^[0m
+     [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#           end[0m
+     [36m#           ^~~[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+     [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+     [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+     [36m# ------------------[0m
+     [36m# --- Caused by: ---[0m
+     [36m# SyntaxError:[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+     [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+     [36m#   ...                              ^[0m
+     [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+     [36m#             end[0m
+     [36m#             ^~~[0m
+     [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  10) 投稿のテスト 一覧画面のテスト book削除のテスト bookの削除
+      [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+      [31m[0m
+      [31mActionView::SyntaxErrorInTemplate:[0m
+      [31m  Encountered a syntax error while rendering template: check [0m
+      [31m  <body>[0m
+      [31m[0m
+      [31m    <div class="flash-notifications">[0m
+      [31m      <% flash.each do |key, value| %>[0m
+      [31m       <%= content_tag(:div, value, class: key) %>[0m
+      [31m      <% end %>[0m
+      [31m    </div>[0m
+      [31m[0m
+      [31m    <h1 class="header">Books</h1>[0m
+      [31m    <!--投稿一覧-->[0m
+      [31m    <table>[0m
+      [31m      <thead>[0m
+      [31m        <tr>[0m
+      [31m          <th>Title</th>[0m
+      [31m          <th>Body</th>[0m
+      [31m          <th colspan="3"></th>[0m
+      [31m        </tr>[0m
+      [31m      </thead>[0m
+      [31m[0m
+      [31m      <tbody>[0m
+      [31m        <!--データを取得する構文-->[0m
+      [31m        <% @books.each do |book| %>[0m
+      [31m          <tr>[0m
+      [31m            <td><%= book.title %></td>[0m
+      [31m            <td><%= book.body %></td>[0m
+      [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+      [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+      [31m            <!--viewは不要-->[0m
+      [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+      [31m          </tr>[0m
+      [31m          <% end %>[0m
+      [31m      </tbody>[0m
+      [31m    </table>[0m
+      [31m[0m
+      [31m    <!--新規投稿-->[0m
+      [31m    <h2>New book</h2>[0m
+      [31m    <% if @book.errors.any? %>[0m
+      [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+      [31m      <ul>[0m
+      [31m        <% @book.errors.full_messages.each do |message| %>[0m
+      [31m        <li><%= message %></li>[0m
+      [31m      <% end %>[0m
+      [31m      </ul>[0m
+      [31m    <% end %>[0m
+      [31m[0m
+      [31m    <div class="form">[0m
+      [31m    <!--form_withヘルパー-->[0m
+      [31m    <%= form_with model: @book, local : true do |f| %>[0m
+      [31m      <div class="field">[0m
+      [31m      <label for="book_title">Title</label>[0m
+      [31m      <%= f.text_field :title %>[0m
+      [31m      </div>[0m
+      [31m[0m
+      [31m      <div class="field">[0m
+      [31m      <label for="book_body">Body</label>[0m
+      [31m      <%= f.text_area :body %>[0m
+      [31m      </div>[0m
+      [31m[0m
+      [31m      <div class="action">[0m
+      [31m      <%= f.submit 'Create Book' %>[0m
+      [31m      </div>[0m
+      [31m    <% end %>[0m
+      [31m    </div>[0m
+      [31m  </body>[0m
+      [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m# ...                              ^[0m
+      [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#           end[0m
+      [36m#           ^~~[0m
+      [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m# ...                              ^[0m
+      [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#           end[0m
+      [36m#           ^~~[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:24:in `visit'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/driver.rb:46:in `visit'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/session.rb:278:in `visit'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/dsl.rb:58:in `block (2 levels) in <module:DSL>'[0m
+      [36m# ./spec/system/books_spec.rb:20:in `block (3 levels) in <main>'[0m
+      [36m# ------------------[0m
+      [36m# --- Caused by: ---[0m
+      [36m# SyntaxError:[0m
+      [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m#   ...                              ^[0m
+      [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#             end[0m
+      [36m#             ^~~[0m
+      [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+  11) 投稿のテスト 詳細画面のテスト リンクの遷移先の確認 Backの遷移先は一覧画面か
+      [31mFailure/Error: expect(page).to have_current_path books_path[0m
+      [31m  expected "/books/1" to equal "/books"[0m
+      [36m# ./spec/system/books_spec.rb:122:in `block (4 levels) in <main>'[0m
+
+  12) 投稿のテスト 編集画面のテスト リンクの遷移先の確認 Backの遷移先は一覧画面か
+      [31mFailure/Error: <%= form_with model: @book, local : true do |f| %>[0m
+      [31m[0m
+      [31mActionView::SyntaxErrorInTemplate:[0m
+      [31m  Encountered a syntax error while rendering template: check [0m
+      [31m  <body>[0m
+      [31m[0m
+      [31m    <div class="flash-notifications">[0m
+      [31m      <% flash.each do |key, value| %>[0m
+      [31m       <%= content_tag(:div, value, class: key) %>[0m
+      [31m      <% end %>[0m
+      [31m    </div>[0m
+      [31m[0m
+      [31m    <h1 class="header">Books</h1>[0m
+      [31m    <!--投稿一覧-->[0m
+      [31m    <table>[0m
+      [31m      <thead>[0m
+      [31m        <tr>[0m
+      [31m          <th>Title</th>[0m
+      [31m          <th>Body</th>[0m
+      [31m          <th colspan="3"></th>[0m
+      [31m        </tr>[0m
+      [31m      </thead>[0m
+      [31m[0m
+      [31m      <tbody>[0m
+      [31m        <!--データを取得する構文-->[0m
+      [31m        <% @books.each do |book| %>[0m
+      [31m          <tr>[0m
+      [31m            <td><%= book.title %></td>[0m
+      [31m            <td><%= book.body %></td>[0m
+      [31m            <td><%= link_to 'Show', book, method: :get %></td>[0m
+      [31m            <td><%= link_to 'Edit', edit_book_path(book) %></td>[0m
+      [31m            <!--viewは不要-->[0m
+      [31m            <td><%= link_to 'Destroy', book, method: :delete, data: {confirm: 'Are you sure?' } %></td>[0m
+      [31m          </tr>[0m
+      [31m          <% end %>[0m
+      [31m      </tbody>[0m
+      [31m    </table>[0m
+      [31m[0m
+      [31m    <!--新規投稿-->[0m
+      [31m    <h2>New book</h2>[0m
+      [31m    <% if @book.errors.any? %>[0m
+      [31m      <%= @book.errors.count %> errors prohibited this book from being saved:[0m
+      [31m      <ul>[0m
+      [31m        <% @book.errors.full_messages.each do |message| %>[0m
+      [31m        <li><%= message %></li>[0m
+      [31m      <% end %>[0m
+      [31m      </ul>[0m
+      [31m    <% end %>[0m
+      [31m[0m
+      [31m    <div class="form">[0m
+      [31m    <!--form_withヘルパー-->[0m
+      [31m    <%= form_with model: @book, local : true do |f| %>[0m
+      [31m      <div class="field">[0m
+      [31m      <label for="book_title">Title</label>[0m
+      [31m      <%= f.text_field :title %>[0m
+      [31m      </div>[0m
+      [31m[0m
+      [31m      <div class="field">[0m
+      [31m      <label for="book_body">Body</label>[0m
+      [31m      <%= f.text_area :body %>[0m
+      [31m      </div>[0m
+      [31m[0m
+      [31m      <div class="action">[0m
+      [31m      <%= f.submit 'Create Book' %>[0m
+      [31m      </div>[0m
+      [31m    <% end %>[0m
+      [31m    </div>[0m
+      [31m  </body>[0m
+      [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m# ...                              ^[0m
+      [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#           end[0m
+      [36m#           ^~~[0m
+      [36m# ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m# ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m# ...                              ^[0m
+      [36m# ./app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#           end[0m
+      [36m#           ^~~[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/rendering.rb:20:in `with_renderer'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/actiontext-6.1.4.7/lib/action_text/engine.rb:59:in `block (4 levels) in <class:Engine>'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/tempfile_reaper.rb:15:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/etag.rb:27:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/conditional_get.rb:27:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/head.rb:12:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:266:in `context'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/session/abstract/id.rb:260:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:37:in `call_app'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `block in call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/rack/logger.rb:26:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/method_override.rb:24:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/runtime.rb:22:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/sendfile.rb:110:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/railties-6.1.4.7/lib/rails/engine.rb:539:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:74:in `block in call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `each'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/urlmap.rb:58:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-2.2.3/lib/rack/builder.rb:244:in `call'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/mock_session.rb:29:in `request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:266:in `process_request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:129:in `custom_request'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/rack-test-1.1.0/lib/rack/test.rb:58:in `get'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:72:in `process'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:47:in `process_and_follow_redirects'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/browser.rb:42:in `follow'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/node.rb:249:in `follow_link'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/node.rb:72:in `click'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/rack_test/node.rb:144:in `block (2 levels) in <class:Node>'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/node/element.rb:172:in `block in click'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/node/element.rb:597:in `block in perform_click_action'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/node/base.rb:83:in `synchronize'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/node/element.rb:597:in `perform_click_action'[0m
+      [36m# /home/ec2-user/.rvm/gems/ruby-2.6.3/gems/capybara-3.36.0/lib/capybara/node/element.rb:171:in `click'[0m
+      [36m# ./spec/system/books_spec.rb:155:in `block (4 levels) in <main>'[0m
+      [36m# ------------------[0m
+      [36m# --- Caused by: ---[0m
+      [36m# SyntaxError:[0m
+      [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+      [36m#   ...form_with model: @book, local : true do |f| @output_buffer.s...[0m
+      [36m#   ...                              ^[0m
+      [36m#   /home/ec2-user/environment/dwc_bookers/app/views/books/index.html.erb:68: syntax error, unexpected end, expecting end-of-input[0m
+      [36m#             end[0m
+      [36m#             ^~~[0m
+      [36m#   ./app/views/books/index.html.erb:49: syntax error, unexpected ':', expecting =>[0m
+
+Finished in 0.74423 seconds (files took 0.93511 seconds to load)
+[31m29 examples, 12 failures[0m
+
+Failed examples:
+
+[31mrspec ./spec/models/book_spec.rb:28[0m [36m# Book モデルに関するテスト titleを空白で投稿した場合に画面にエラーメッセージが表示されているか エラーメッセージは正しく表示されるか[0m
+[31mrspec ./spec/models/book_spec.rb:38[0m [36m# Book モデルに関するテスト bodyを空白で投稿した場合に画面にエラーメッセージが表示されているか エラーメッセージは正しく表示されるか[0m
+[31mrspec ./spec/system/books_spec.rb:23[0m [36m# 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか[0m
+[31mrspec ./spec/system/books_spec.rb:28[0m [36m# 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 bookのタイトルと感想を表示し、詳細・編集・削除のリンクが表示されているか[0m
+[31mrspec ./spec/system/books_spec.rb:51[0m [36m# 投稿のテスト 一覧画面のテスト 一覧の表示とリンクの確認 Create Bookボタンが表示される[0m
+[31mrspec ./spec/system/books_spec.rb:56[0m [36m# 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿に成功しサクセスメッセージが表示されるか[0m
+[31mrspec ./spec/system/books_spec.rb:62[0m [36m# 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿に失敗する[0m
+[31mrspec ./spec/system/books_spec.rb:67[0m [36m# 投稿のテスト 一覧画面のテスト 投稿処理に関するテスト 投稿後のリダイレクト先は正しいか[0m
+[31mrspec ./spec/system/books_spec.rb:75[0m [36m# 投稿のテスト 一覧画面のテスト book削除のテスト application.html.erbにjavascript_pack_tagを含んでいるか[0m
+[31mrspec ./spec/system/books_spec.rb:86[0m [36m# 投稿のテスト 一覧画面のテスト book削除のテスト bookの削除[0m
+[31mrspec ./spec/system/books_spec.rb:119[0m [36m# 投稿のテスト 詳細画面のテスト リンクの遷移先の確認 Backの遷移先は一覧画面か[0m
+[31mrspec ./spec/system/books_spec.rb:153[0m [36m# 投稿のテスト 編集画面のテスト リンクの遷移先の確認 Backの遷移先は一覧画面か[0m
+
